@@ -1,0 +1,10 @@
+# Never commit game files or builds.
+build/
+**/smali_work/
+*.apk
+*.dex
+*.so
+*.bin
+*.zip
+__pycache__/
+*.pyc
