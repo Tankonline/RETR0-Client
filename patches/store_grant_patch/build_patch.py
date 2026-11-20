@@ -20,10 +20,10 @@ OUT_APK = OUT_DIR / "rr3_14.0.1_store_grant_test.apk"      # store grants only (
 REDIRECT_DEX = OUT_DIR / "classes2_redirect.dex"
 CLIENT_APK = OUT_DIR / "rr3_14.0.1_retr0_client.apk"
 CLIENT_SIGNED = OUT_DIR / "rr3_14.0.1_retr0_client_signed.apk"
-BUILD_TOOLS = Path(os.environ["LOCALAPPDATA"]) / "Android/Sdk/build-tools/36.0.0"
+BUILD_TOOLS = Path(os.environ.get("LOCALAPPDATA", str(Path.home()))) / "Android/Sdk/build-tools/36.0.0"
 DEBUG_KEYSTORE = Path.home() / ".android/debug.keystore"
 LIB = "lib/arm64-v8a/libRealRacing3.so"
-NDK = Path(os.environ["LOCALAPPDATA"]) / "Android/Sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/windows-x86_64/bin"
+NDK = Path(os.environ.get("LOCALAPPDATA", str(Path.home()))) / "Android/Sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/windows-x86_64/bin"
 EXPECT_SHA = "dcfe3788004444bd69e2fb839c18a973b488e94f46f1b818b6c005afdcad1d5f"
 
 CAVE, CAVE_LEN = 0x9876C8, 0x938          # zero padding between .eh_frame and .text (RX segment)

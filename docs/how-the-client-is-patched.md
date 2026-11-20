@@ -22,6 +22,16 @@ executable segment. Our handler code goes there.
    - fixes the library's CRC in the zip's local and central headers. The library is stored uncompressed, so its
      size and offset don't change.
 
+```mermaid
+flowchart LR
+    CALL["game calls<br/>hooked function"] --> B["first instruction<br/>replaced by: b handler"]
+    B --> H{"handler in the cave:<br/>act on this call?"}
+    H -- "yes" --> ACT["call the game's own functions<br/>(award, string assign, fopen …)<br/>log RETR0 … to logcat"]
+    ACT --> RET["return to the caller<br/>(or continue the original)"]
+    H -- "no" --> DISP["run the displaced instruction"]
+    DISP --> ORIG["branch to hooked function + 4<br/>original code runs unchanged"]
+```
+
 Hooks in the current client:
 
 | Hook | Function | Feature |

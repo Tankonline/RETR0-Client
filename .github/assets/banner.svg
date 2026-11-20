@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="RETR0 Client">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1020"/>
+      <stop offset="1" stop-color="#1b1531"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c5cff"/>
+      <stop offset="1" stop-color="#ff7a18"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="300" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="300" rx="24" fill="url(#grid)"/>
+  <g stroke="#9b7bff" stroke-linecap="round">
+    <line x1="80" y1="112" x2="250" y2="112" stroke-width="6" opacity="0.9"/>
+    <line x1="40" y1="150" x2="250" y2="150" stroke-width="6" opacity="0.6"/>
+    <line x1="110" y1="188" x2="250" y2="188" stroke-width="6" opacity="0.35"/>
+  </g>
+  <text x="280" y="178" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="112" font-weight="800"
+        letter-spacing="6" fill="#ffffff">RETR<tspan fill="url(#accent)">0</tspan></text>
+  <text x="286" y="232" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="30" font-weight="600"
+        letter-spacing="10" fill="#b7a8ff">CLIENT</text>
+  <!-- phone + patch glyph -->
+  <g transform="translate(960 56)" fill="none" stroke="#b7a8ff" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="0" y="0" width="110" height="190" rx="16"/>
+    <line x1="40" y1="170" x2="70" y2="170"/>
+    <path d="M28 70 L55 44 L82 70 M55 44 V118" stroke="#ff7a18"/>
+    <rect x="22" y="128" width="66" height="22" rx="6" stroke="#7c5cff"/>
+  </g>
+  <text x="1170" y="276" text-anchor="end" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="18"
+        fill="#6f6394">Project RETR0 · build from your own copy · no APKs</text>
+</svg>

@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest a client feature (something to unlock, fix or restore in the game).
+labels: [enhancement]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What should the client do?
+    validations:
+      required: true
+  - type: textarea
+    id: where
+    attributes:
+      label: Where in the game?
+      description: The screen, button or message involved (a screenshot helps).
+  - type: textarea
+    id: known
+    attributes:
+      label: Anything known about the code involved?
+      description: Log lines, text keys (GAMETEXT_…), addresses.

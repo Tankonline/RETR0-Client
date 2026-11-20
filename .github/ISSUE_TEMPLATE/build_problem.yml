@@ -1,0 +1,44 @@
+name: Build or install problem
+description: A build script fails, or the client doesn't install or start.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Never attach an APK, DEX, .so or game files.** Please remove personal data (ids, tokens, home paths) from logs.
+  - type: dropdown
+    id: step
+    attributes:
+      label: Which step?
+      options:
+        - build_redirect_dex.py
+        - build_patch.py
+        - client.ps1 apply / install-fresh
+        - Game start / in game
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output or logs
+      description: The script's output, or `adb logcat` lines with RETR0, CC Trace or FATAL.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: sha
+    attributes:
+      label: Does the build script accept your APK's SHA-256?
+      placeholder: yes / no (the build requires dcfe3788…1d5f)
+  - type: input
+    id: tools
+    attributes:
+      label: Tool versions
+      placeholder: Python 3.x, APKTool 3.0.3, NDK 28.x, build-tools 36.x
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I removed personal data and attached no game files.
+          required: true
