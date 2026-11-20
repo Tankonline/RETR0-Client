@@ -2,8 +2,8 @@
 
 | Page | What it covers |
 |---|---|
-| [How the client is patched](how-the-client-is-patched.md) | The native code cave, the hooks, the smali redirect, putting the APK together, installing without losing data |
-| [Building](building.md) | Requirements and the two build commands, what each script checks |
+| [How the client is patched](how-the-client-is-patched.md) | The native code cave, the hooks (redirect included), putting the APK together, installing without losing data, the reboot caveat |
+| [Building](building.md) | Requirements and the build command, what the script checks |
 | [Installing](installing.md) | Putting the client on the emulator, playing, undoing |
 | [features/server-redirect.md](features/server-redirect.md) | Built-in server redirect |
 | [features/special-events.md](features/special-events.md) | Special events unlocked |

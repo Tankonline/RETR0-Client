@@ -26,6 +26,10 @@ The in-place swap works because the game loads its native libraries straight fro
 (`extractNativeLibs=false`) and Android does not re-check an installed APK's signature at app start. An emulator with
 a Google APIs image (root via `su`) is required for `apply`/`restore`.
 
+> [!WARNING]
+> **After an emulator restart** the swapped APK is gone: Android re-checks signatures at boot and removes the app's
+> code (your data stays). Reinstall the original over it, `adb install -r <original APK>`, then `client.ps1 apply`.
+
 ## 3. Play
 
 ```powershell
@@ -40,4 +44,7 @@ server\play.cmd
 - **Store:** press BUY on a currency package or currency pack.
 - **Player name:** Settings → Enter Racing Code → type the name → "code accepted" → restart the game. The name is in
   `files/doc/retr0_username.txt` on the device; delete it to go back to "Guest".
+- **Button text (optional):** `server\client.ps1 ui-text` renames that button to "Change Username (Restart
+  Required)" by editing two of the game's UI files on the device; `server\client.ps1 ui-text-restore` undoes it.
+  See [features/username.md](features/username.md#button-text).
 - **Logs:** each feature writes a `RETR0 …` line to logcat (`adb logcat | findstr RETR0`).

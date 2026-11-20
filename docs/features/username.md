@@ -3,8 +3,9 @@
 **What it does:** you choose the name the game shows for you, on the Profile screen and in race results, instead of
 "Guest".
 
-**How to use:** Settings → **Enter Racing Code** → type the name → "code accepted" → restart the game. The name is
-kept in `files/doc/retr0_username.txt` on the device; delete it to go back to "Guest".
+**How to use:** Settings → **Enter Racing Code** (or **Change Username** after `client.ps1 ui-text`, below) → type
+the name → "code accepted" → restart the game. The name is kept in `files/doc/retr0_username.txt` on the device;
+delete it to go back to "Guest".
 Evidence: [reference/SAVE_SYSTEM_ANALYSIS.md](https://github.com/Tankonline/RETR0-Server/blob/main/docs/reference/SAVE_SYSTEM_ANALYSIS.md) SV-25..SV-27.
 
 ## Investigation
@@ -43,6 +44,26 @@ Two hooks in the native patch ([the RETR0 client](../how-the-client-is-patched.m
   address arrives in register **`x8`**, not `x0`. Ghidra's pseudocode hides that. The first build wrote into `x0`
   (an unrelated object in memory). Fixed by saving `x8`. The save files were checked afterwards: all intact.
 
-## Verified (run 29)
+## Button text
 
-The owner confirmed the chosen name shows on Profile and in race results.
+The button still said ENTER RACING CODE and its prompt "Enter your code:". Both come from the game's UI layout
+files, not from the APK:
+
+- `files/.depot/gui/processed/SettingsMenu.gui` (encrypted XML, the same RC4 scheme as the game's `.nct` data
+  files) has the button `IMAGE_BUTTON_ENTER_PROMO_CODE` with the label `text="GAMETEXT_ENTER_PROMO_CODE"`. A label
+  whose text is not a `GAMETEXT_` key is drawn as written, so it becomes `Change Username (Restart Required)`; the
+  game shrinks it to fit.
+- `TextEntryPopup.gui` is the prompt. Its heading `LBL_HEADING` is set by code at run time ("Enter your code:"), so
+  editing its text does nothing. Instead that label is moved off-screen and a second, fixed label
+  "Enter your new username (restart required):" takes its place.
+
+[`retr0_gui_patch.py`](../../patches/ui_text/retr0_gui_patch.py) (standard library only) makes both edits from **your
+own** files, reading the decryption key from your own APK; it refuses files that are already edited. On the server,
+`client.ps1 ui-text` pulls the two files from the emulator, builds the edited copies, keeps the originals and pushes
+the result; `client.ps1 ui-text-restore` puts the originals back. These files are EA's, so they are never published.
+
+## Verified
+
+- **Run 29:** the owner confirmed the chosen name shows on Profile and in race results.
+- **Run 31:** the button reads CHANGE USERNAME (RESTART REQUIRED) and the prompt "Enter your new username (restart
+  required):"; `ui-text`, `ui-text-restore` and a second `ui-text` were checked by file hash.

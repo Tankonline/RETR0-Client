@@ -37,18 +37,16 @@
 | 🔌 | [**Built-in server redirect**](docs/features/server-redirect.md) | CloudCell and asset-CDN traffic goes to the RETR0 server (`127.0.0.1:8780`). No Frida, no time limit; every other host is untouched |
 | 🏁 | [**Special events**](docs/features/special-events.md) | Grand Prix / Special Events open again: they only needed a working connection |
 | 💰 | [**Store preservation grants**](docs/features/store-grants.md) | BUY on a currency package or pack gives its contents through the game's own non-purchase reward path, with amounts from the game's catalogue |
-| 🏷️ | [**Player name**](docs/features/username.md) | Enter Racing Code sets the name shown instead of "Guest" on Profile and in race results |
+| 🏷️ | [**Player name**](docs/features/username.md) | Enter Racing Code sets the name shown instead of "Guest" on Profile and in race results; an optional data patch renames the button to "Change Username (Restart Required)" |
 
 ## How the patch works
 
 ```mermaid
 flowchart TB
-    A["Your original APK<br/>(SHA-256 checked)"] --> B["build_redirect_dex.py<br/>APKTool: insert 2 calls into HttpRequest.init<br/>+ com.retr0.Redirect"]
-    A --> C["build_patch.py<br/>assemble store_grant_patch.S (NDK clang + ld.lld)<br/>link at the code cave 0x9876c8"]
+    A["Your original APK<br/>(SHA-256 checked)"] --> C["build_patch.py<br/>store_grant_patch.S + retr0_redirect.c (NDK clang)<br/>linked by cave.ld at the code cave 0x9876c8"]
     C --> D["verify cave is empty and every hooked<br/>instruction is the expected one"]
-    D --> E["write handlers + 4 hook branches<br/>fix the library's zip CRC"]
-    B --> F["swap in classes2.dex · zipalign · debug-sign"]
-    E --> F
+    D --> E["write handlers + 5 hook branches<br/>fix the library's zip CRC"]
+    E --> F["zipalign · debug-sign"]
     F --> G["rr3_14.0.1_retr0_client.apk<br/>rr3_14.0.1_retr0_client_signed.apk"]
 ```
 
@@ -58,18 +56,19 @@ flowchart TB
 | `0x13ef7e8` | `PackManager` pack purchase | Store grants: currency packs |
 | `0x135e944` | Player-name function | Player name |
 | `0x1516b1c` | Racing-code submit | Player name |
-| `HttpRequest.init` | Java (smali) | Server redirect |
+| `0x1ce350c` | Native wrapper of Java `HttpRequest.init` | Server redirect |
+
+Only `lib/arm64-v8a/libRealRacing3.so` changes; the Java code is untouched (since 0.2.0).
 
 Details, including lessons learned (like the `x8` return register): **[docs/how-the-client-is-patched.md](docs/how-the-client-is-patched.md)**.
 
 ## Build
 
 You need your original `real-racing-3-14-0-1.apk`
-(SHA-256 `dcfe3788004444bd69e2fb839c18a973b488e94f46f1b818b6c005afdcad1d5f`), Python 3, Java + APKTool 3.0.3, the
-Android NDK 28 and build-tools 36.
+(SHA-256 `dcfe3788004444bd69e2fb839c18a973b488e94f46f1b818b6c005afdcad1d5f`), Python 3, the Android NDK 28 and
+build-tools 36. (Java and APKTool are no longer needed.)
 
 ```powershell
-python patches\local_server_redirect\build_redirect_dex.py --apk <apk> --out build\apk --apktool <apktool_3.0.3.jar>
 python patches\store_grant_patch\build_patch.py --apk <apk> --out build\apk `
     --ndk-bin <sdk>\ndk\28.2.13676358\toolchains\llvm\prebuilt\windows-x86_64\bin --build-tools <sdk>\build-tools\36.0.0
 ```
@@ -96,8 +95,9 @@ See [docs/installing.md](docs/installing.md).
 ## Repository layout
 
 ```
-patches/local_server_redirect/   Redirect.smali + build_redirect_dex.py
-patches/store_grant_patch/       store_grant_patch.S (ARM64 handlers) + build_patch.py
+patches/store_grant_patch/       store_grant_patch.S (ARM64 handlers), retr0_redirect.c, cave.ld, build_patch.py
+patches/ui_text/                 retr0_gui_patch.py (button text, a game-data patch; used by client.ps1 ui-text)
+patches/local_server_redirect/   Redirect.smali + build_redirect_dex.py (0.1.0 Java redirect, reference only)
 docs/                            how it works, building, installing, one page per feature
 ```
 

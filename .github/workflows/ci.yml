@@ -18,13 +18,22 @@ jobs:
         with:
           python-version: "3.13"
       - name: Build scripts compile
-        run: python -m py_compile patches/store_grant_patch/build_patch.py patches/local_server_redirect/build_redirect_dex.py
+        run: python -m py_compile patches/store_grant_patch/build_patch.py patches/ui_text/retr0_gui_patch.py patches/local_server_redirect/build_redirect_dex.py
       - name: Build scripts show their options
         run: |
           python patches/store_grant_patch/build_patch.py --help
+          python patches/ui_text/retr0_gui_patch.py --help
           python patches/local_server_redirect/build_redirect_dex.py --help
       - name: ARM64 handlers assemble
         run: clang --target=aarch64-linux-android -c patches/store_grant_patch/store_grant_patch.S -o /tmp/patch.o && echo "assembled OK"
+      - name: Redirect C compiles freestanding, code and data only in .text/.rodata
+        run: |
+          clang --target=aarch64-linux-android -Os -fno-pic -fno-pie -fno-unroll-loops -fno-vectorize -fno-slp-vectorize \
+            -ffreestanding -fno-builtin -mgeneral-regs-only -fno-stack-protector -fno-jump-tables \
+            -fno-asynchronous-unwind-tables -fno-unwind-tables -c patches/store_grant_patch/retr0_redirect.c -o /tmp/redirect.o
+          readelf -SW /tmp/redirect.o
+          if readelf -SW /tmp/redirect.o | grep -E '\] \.(data|bss|got)'; then echo "writable data in the redirect"; exit 1; fi
+          echo "compiled OK"
 
   safety:
     name: No game material, links resolve

@@ -278,3 +278,29 @@ fmt_name_loaded:
 fmt_name_saved:
     .asciz  "RETR0 username saved: %s (applies after a restart)\n"
     .balign 4
+
+// =====================================================================================================
+// RETR0 native server redirect (replaces the Java/smali redirect; see retr0_redirect.c).
+// Hook: entry of the native wrapper that hands every CloudCell HTTP request to Java HttpRequest.init
+// (ELF 0x1ce350c, x2 = request object, full URL as std::string at +0x10). retr0_rewrite_request() rewrites
+// CloudCell/CDN URLs to http://127.0.0.1:8780/_retr0host/<host><path>; then the original runs unchanged.
+// =====================================================================================================
+    .globl redir_entry
+redir_entry:
+    stp     x29, x30, [sp, #-0x60]!
+    mov     x29, sp
+    stp     x0, x1, [sp, #0x10]
+    stp     x2, x3, [sp, #0x20]
+    stp     x4, x5, [sp, #0x30]
+    stp     x6, x7, [sp, #0x40]
+    str     x8, [sp, #0x50]
+    mov     x0, x2
+    bl      retr0_rewrite_request
+    ldr     x8, [sp, #0x50]
+    ldp     x6, x7, [sp, #0x40]
+    ldp     x4, x5, [sp, #0x30]
+    ldp     x2, x3, [sp, #0x20]
+    ldp     x0, x1, [sp, #0x10]
+    ldp     x29, x30, [sp], #0x60
+    sub     sp, sp, #0xe0           // displaced original instruction at 0x1ce350c
+    b       redir_continue          // 0x1ce3510
