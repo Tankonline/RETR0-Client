@@ -3,6 +3,14 @@
 All notable changes to the RETR0 Client patches. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **RETR0 link** ([docs/features/lan-link.md](docs/features/lan-link.md),
+  [patches/retr0_link/](patches/retr0_link/)): a Java redirect plus a small in-app relay that finds a RETR0 server on
+  the home network by UDP broadcast and connects the game to it over Wi-Fi. Works on any CPU type, including
+  32-bit ARM. Needs RETR0 Server LAN mode. Tested on an NVIDIA SHIELD Tablet K1 (run 35).
+
 ## [0.2.0] - 2026-11-20
 
 ### Changed

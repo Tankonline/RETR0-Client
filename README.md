@@ -35,6 +35,7 @@
 | | Feature | What it does |
 |:---:|---|---|
 | 🔌 | [**Built-in server redirect**](docs/features/server-redirect.md) | CloudCell and asset-CDN traffic goes to the RETR0 server (`127.0.0.1:8780`). No Frida, no time limit; every other host is untouched |
+| 📶 | [**RETR0 link (LAN)**](docs/features/lan-link.md) | Play on another device on your Wi-Fi: the game finds the RETR0 server on your home network by itself. Any CPU type |
 | 🏁 | [**Special events**](docs/features/special-events.md) | Grand Prix / Special Events open again: they only needed a working connection |
 | 💰 | [**Store preservation grants**](docs/features/store-grants.md) | BUY on a currency package or pack gives its contents through the game's own non-purchase reward path, with amounts from the game's catalogue |
 | 🏷️ | [**Player name**](docs/features/username.md) | Enter Racing Code sets the name shown instead of "Guest" on Profile and in race results; an optional data patch renames the button to "Change Username (Restart Required)" |
@@ -96,6 +97,7 @@ See [docs/installing.md](docs/installing.md).
 
 ```
 patches/store_grant_patch/       store_grant_patch.S (ARM64 handlers), retr0_redirect.c, cave.ld, build_patch.py
+patches/retr0_link/              Redirect.java + Link.java + build_link.py (RETR0 link, Wi-Fi connection)
 patches/ui_text/                 retr0_gui_patch.py (button text, a game-data patch; used by client.ps1 ui-text)
 patches/local_server_redirect/   Redirect.smali + build_redirect_dex.py (0.1.0 Java redirect, reference only)
 docs/                            how it works, building, installing, one page per feature

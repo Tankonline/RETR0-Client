@@ -36,6 +36,11 @@ python patches\store_grant_patch\build_patch.py --apk <apk> --out build\apk `
 
 The build is reproducible: the same original APK gives byte-identical outputs.
 
+## The LAN build (RETR0 link)
+
+After the build above, `python patches/retr0_link/build_link.py` adds the Wi-Fi link (needs a JDK, Android SDK
+build-tools and platform `android-35`, and APKTool). Details: [lan-link.md](features/lan-link.md).
+
 ## Changing a patch
 
 - Handlers: edit `store_grant_patch.S` (or `retr0_redirect.c` for the URL rewrite). Any new game address goes
