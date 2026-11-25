@@ -5,6 +5,8 @@ All notable changes to the RETR0 Client patches. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-25
+
 ### Added
 - **RETR0 link** ([docs/features/lan-link.md](docs/features/lan-link.md),
   [patches/retr0_link/](patches/retr0_link/)): a Java redirect plus a small in-app relay that finds a RETR0 server on
@@ -46,5 +48,7 @@ First public release. Targets Real Racing 3 **14.0.1**, `arm64-v8a`.
   byte-identical builds; zip-aligned and debug-signed outputs.
 - Documentation: how the client is patched, building, installing, one page per feature.
 
+[Unreleased]: https://github.com/Tankonline/RETR0-Client/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Tankonline/RETR0-Client/releases/tag/v0.3.0
 [0.2.0]: https://github.com/Tankonline/RETR0-Client/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Tankonline/RETR0-Client/releases/tag/v0.1.0

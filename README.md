@@ -6,7 +6,7 @@
   <a href="https://github.com/Tankonline/RETR0-Client/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Tankonline/RETR0-Client/actions/workflows/ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="Code: MIT" src="https://img.shields.io/badge/code-MIT-3ddc97"></a>
   <a href="LICENSE-DOCS.md"><img alt="Docs: CC BY 4.0" src="https://img.shields.io/badge/docs-CC%20BY%204.0-b7a8ff"></a>
-  <img alt="Target: arm64-v8a" src="https://img.shields.io/badge/target-arm64--v8a-7c5cff">
+  <img alt="Target: arm64-v8a, any CPU with the RETR0 link" src="https://img.shields.io/badge/target-arm64--v8a%20%C2%B7%20any%20CPU%20(link)-7c5cff">
   <img alt="Game: RR3 14.0.1" src="https://img.shields.io/badge/game-RR3%2014.0.1%20(Android)-ff7a18">
   <img alt="No APKs" src="https://img.shields.io/badge/APKs%20in%20repo-none-555">
 </p>
@@ -59,7 +59,8 @@ flowchart TB
 | `0x1516b1c` | Racing-code submit | Player name |
 | `0x1ce350c` | Native wrapper of Java `HttpRequest.init` | Server redirect |
 
-Only `lib/arm64-v8a/libRealRacing3.so` changes; the Java code is untouched (since 0.2.0).
+The base build changes only `lib/arm64-v8a/libRealRacing3.so`; the Java code is untouched (since 0.2.0). The
+optional LAN build ([RETR0 link](docs/features/lan-link.md)) adds one call in `classes2.dex` and a new `classes6.dex`.
 
 Details, including lessons learned (like the `x8` return register): **[docs/how-the-client-is-patched.md](docs/how-the-client-is-patched.md)**.
 
@@ -91,7 +92,8 @@ server\retr0_server.cmd start -WithSync
 server\play.cmd
 ```
 
-See [docs/installing.md](docs/installing.md).
+See [docs/installing.md](docs/installing.md). For a phone or tablet on your Wi-Fi, use the LAN build and the
+server's [LAN mode](https://github.com/Tankonline/RETR0-Server/blob/main/docs/features/lan-mode.md).
 
 ## Repository layout
 
