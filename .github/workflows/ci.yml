@@ -27,16 +27,8 @@ jobs:
           python patches/retr0_link/build_link.py --help
       - name: RETR0 link Java compiles (Java 8 target, android.util.Log stubbed)
         run: |
-          mkdir -p /tmp/stub/android/util /tmp/link
-          printf 'package android.util;
-public final class Log {
-  public static int i(String t, String m) { return 0; }
-  public static int w(String t, String m) { return 0; }
-  public static int e(String t, String m) { return 0; }
-  public static int d(String t, String m) { return 0; }
-}
-' > /tmp/stub/android/util/Log.java
-          javac --release 8 -d /tmp/link /tmp/stub/android/util/Log.java patches/retr0_link/src/com/retr0/*.java
+          mkdir -p /tmp/link
+          javac --release 8 -d /tmp/link patches/retr0_link/ci_stub/android/util/Log.java patches/retr0_link/src/com/retr0/*.java
           ls /tmp/link/com/retr0
       - name: ARM64 handlers assemble
         run: clang --target=aarch64-linux-android -c patches/store_grant_patch/store_grant_patch.S -o /tmp/patch.o && echo "assembled OK"
